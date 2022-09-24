@@ -2,3 +2,12 @@
     width: 100%;
 
 }
+
+.link>a {
+    color: navajowhite;
+    text-decoration: none;
+}
+
+.link {
+    text-decoration: none;
+}

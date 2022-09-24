@@ -122,8 +122,11 @@ def review_create(request, movie_pk):
 
 def review_detail(request, review_pk):
     info = Review.objects.get(pk=review_pk)
+    comment_form = CommentForm()
     context = {
         "info": info,
+        "comment_form": comment_form,
+        "comments": info.comment_set.all(),
     }
     return render(request, "reviews/review_detail.html", context)
 

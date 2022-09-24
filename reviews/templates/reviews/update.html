@@ -9,7 +9,14 @@
 
     {{review_form.media}}
     {% for field in review_form %}
-    <div class="form-group">
+    <div class="form-group my-3">
+        <div>
+            {% if field.id_for_label == "id_star" %}
+            <label for="{{ field.id_for_label }}" class="text-dark"> {{ field.label }} </label>
+            {% else %}
+            <label for="{{ field.id_for_label }}" class="text-dark"> </label>
+            {% endif %}
+        </div>
         {{ field }}
     </div>
     {% endfor %}
