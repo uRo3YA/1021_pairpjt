@@ -6,33 +6,20 @@
 
 {% block body %}
 <h1 class="text text-center">리뷰 목록</h1>
-<table class="table text-center align-middle">
-    <thead>
-        <th>ID</th>
-        <th>제목</th>
-        <th>영화 제목</th>
-        <th>영화 평점</th>
-        <th>작성자</th>
-    </thead>
-    <tbody>
-        {% for review in reviews %}
-        <tr>
-            <td>{{review.pk}}</td>
-            <td>
-                <a href="{% url 'reviews:detail' review.pk %}">{{ review.title }}
-            </td>
-            <td>
-                {{ review.movie_name }}
-            </td>
-            <td>
-                {{ review.star }}
-            </td>
-            <td>
-                {{ review.writer }}
-            </td>
-        </tr>
-        {% endfor %}
-
-    </tbody>
-</table>
+<div class="container d-flex row">
+    {% for review in reviews %}
+    <div class="card col-4 m-2 p-0" style="width: 18rem;">
+        <a href="{{ review.pk }}" class="text-decoration-none">
+            {% if review.image %}
+            <img src="{{ review.image }}" class="card-img-top">
+            {% else %}
+            <img src="https://cdn-icons-png.flaticon.com/512/3223/3223092.png" class="card-img-top">
+            {% endif %}
+            <div class="card-body">
+                <p class="card-text text-center fw-bold">{{ review.title }}</p>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -3,15 +3,13 @@
 {% load static %}
 {% block body %}
 <div class="container">
-    <h1>글쓰기</h1>
-
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
         {{review_form.media}}
         {% for field in review_form %}
         <div class="form-group">
-            <div><label for="{{ field.id_for_label }}" class="text-dark">{{ field.label }}: </label></div>
+            <!--<div><label for="{{ field.id_for_label }}" class="text-dark"> </label></div>-->
             {{ field }}
         </div>
         {% endfor %}

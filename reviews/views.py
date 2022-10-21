@@ -1,8 +1,19 @@
 from django.shortcuts import render, redirect
-from .models import Review, Movie
-from .forms import ReviewForm
+from .models import Review, Movie, Comment
+from .forms import ReviewForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from bs4 import BeautifulSoup
+
+#
+def get_img(description):
+    data = BeautifulSoup(description, "html.parser")
+    try:
+        image = data.select_one("img")["src"]
+    except:
+        image = ""
+    return image
+
 
 # Create your views here.
 def index(request):
@@ -25,6 +36,8 @@ def create(request, movie_pk):
             new.movie_name = info.title
             new.grade = len(new.star)
             new.writer = request.user
+            new.image = get_img(new.description)
+            print(new.description)
             new.save()
             return redirect("reviews:movie_detail", info.pk)
     else:
@@ -35,7 +48,12 @@ def create(request, movie_pk):
 
 def detail(request, pk):
     review = Review.objects.get(pk=pk)
-    context = {"review": review}
+    comment_form = CommentForm()
+    context = {
+        "review": review,
+        "comment_form": comment_form,
+        "comments": review.comment_set.all(),
+    }
     return render(request, "reviews/detail.html", context)
 
 
@@ -52,6 +70,8 @@ def update(request, pk):
     if request.method == "POST":
         review_form = ReviewForm(request.POST, instance=movie)
         if review_form.is_valid():
+            new = review_form.save(commit=False)
+            new.image = get_img(new.description)
             review_form.save()
             return redirect("reviews:detail", movie.pk)
     else:
@@ -90,6 +110,8 @@ def review_create(request, movie_pk):
             new.movie_name = info.title
             new.grade = len(new.star)
             new.writer = request.user
+            new.image = get_img(new.description)
+            print(new.description)
             new.save()
             return redirect("reviews:movie_detail", info.pk)
     else:
@@ -133,3 +155,21 @@ def review_delete(request, review_pk):
     if info.writer == request.user:
         info.delete()
     return redirect("reviews:movie_detail", movie_id)
+
+
+@login_required
+def comment_create(request, pk):
+    review = Review.objects.get(pk=pk)
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.review = review
+        comment.user = request.user
+        comment.save()
+    return redirect("reviews:detail", review.pk)
+
+
+def comments_delete(request, review_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    comment.delete()
+    return redirect("reviews:detail", review_pk)

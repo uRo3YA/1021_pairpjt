@@ -8,7 +8,7 @@ class ReviewAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ("content", "created_at", "article")
+    list_display = ("content", "created_at", "review")
 
 
 admin.site.register(Review, ReviewAdmin)
