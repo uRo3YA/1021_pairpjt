@@ -12,7 +12,7 @@ class ReviewForm(forms.ModelForm):
             "description",
             "star",
         ]
-        labels = {"title": "제목", "content": "내용", "description": ""}
+        labels = {"title": "제목", "content": "내용", "description": "설명"}
         widgets = {
             "title": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "제목을 입력해주세요"}

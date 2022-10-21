@@ -1,23 +1,20 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-{% block css %}
-<style>
-    .django-ckeditor-widget {
-        width: 100%;
-    }
-</style>
-{% endblock %}
+{% load static %}
 {% block body %}
 <div class="container">
     <h1>글쓰기</h1>
 
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form review_form %}
-        {{review_form.media}}
-        <br>
-        {# review_form.as_p|safe #}
 
+        {{review_form.media}}
+        {% for field in review_form %}
+        <div class="form-group">
+            <div><label for="{{ field.id_for_label }}" class="text-dark">{{ field.label }}: </label></div>
+            {{ field }}
+        </div>
+        {% endfor %}
         {% bootstrap_button button_type="submit" content="OK" %}
         {% bootstrap_button button_type="reset" content="Cancel" %}
     </form>

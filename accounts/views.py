@@ -29,7 +29,7 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
     context = {"form": form}
-    return render(request, "root", context)
+    return render(request, "accounts/signup.html", context)
 
 
 def detail(request, pk):
