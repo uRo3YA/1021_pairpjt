@@ -25,11 +25,11 @@ def signup(request):
         if form.is_valid():
             user = form.save()  # ModelForm의 save 메서드의 리턴값은 해당 모델의 인스턴스다!
             auth_login(request, user)  # 로그인
-            return redirect("articles:index")
+            return redirect("root")
     else:
         form = CustomUserCreationForm()
     context = {"form": form}
-    return render(request, "accounts/signup.html", context)
+    return render(request, "root", context)
 
 
 def detail(request, pk):
@@ -49,7 +49,7 @@ def login(request):
             auth_login(request, form.get_user())
             # http://127.0.0.1:8000/accounts/login/?next=/articles/1/update/
             # request.GET.get('next') : /articles/1/update/
-            return redirect(request.GET.get("next") or "articles:index")
+            return redirect(request.GET.get("next") or "root")
     else:
         form = AuthenticationForm()
     context = {"form": form}
@@ -59,7 +59,7 @@ def login(request):
 def logout(request):
     auth_logout(request)
     messages.warning(request, "로그아웃 하였습니다.")
-    return redirect("articles:index")
+    return redirect("root")
 
 
 @login_required
