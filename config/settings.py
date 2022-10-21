@@ -49,11 +49,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "django_extensions",
     "reviews",
+    "django_extensions",
     "accounts",
     "imagekit",
     "ckeditor",
+    "ckeditor_uploader",
     "django_bootstrap5",  # 부트스트랩
     "django.contrib.admin",  # 관리자
     "django.contrib.auth",  # 유저인증
@@ -62,6 +63,22 @@ INSTALLED_APPS = [
     "django.contrib.messages",  # 메세지 띄우기
     "django.contrib.staticfiles",
 ]
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_JQUERY_URL = "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
+
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "full",
+        "width": "auto",
+        "extraPlugins": ",".join(
+            [
+                "codesnippet",
+            ]
+        ),
+    },
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

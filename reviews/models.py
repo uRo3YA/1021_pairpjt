@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from django.conf import settings
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 # Create your models here.
@@ -37,7 +37,7 @@ class Review(models.Model):
         ("⭐⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"),
     )
     star = models.CharField(max_length=10, choices=star_Choices)
-    body = RichTextField()
+    description = RichTextUploadingField(blank=True, null=True)
 
 
 class Comment(models.Model):

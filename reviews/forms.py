@@ -1,5 +1,6 @@
 from django import forms
 from .models import Review, Movie
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class ReviewForm(forms.ModelForm):
@@ -8,8 +9,19 @@ class ReviewForm(forms.ModelForm):
         fields = [
             "title",
             "content",
+            "description",
             "star",
         ]
+        labels = {"title": "제목", "content": "내용", "description": ""}
+        widgets = {
+            "title": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "제목을 입력해주세요"}
+            ),
+            "content": forms.Textarea(
+                attrs={"class": "form-control", "placeholder": "내용을 입력해주세요"}
+            ),
+            "description": forms.CharField(widget=CKEditorUploadingWidget()),
+        }
 
 
 class MovieForm(forms.ModelForm):
